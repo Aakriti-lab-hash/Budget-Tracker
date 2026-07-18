@@ -1,0 +1,374 @@
+:root {
+    --darkSlateGray: #24273d; /* sidebar */
+    --turquoise: #3dc3d6; /* nav bar */
+    --tomato: #fe5460; /* expense */
+    --seaGreen: #41dd66; /* income */
+    --silver: #c8c7cc; /* arrow */
+    --gainsboro: #e1e0e4; /* date */
+    
+    --white: #ffffff; /* tablerow */
+  }
+  
+  body {
+    
+   
+      font-family: 'Jost', sans-serif;
+      background-image: url("images/budget-bg.jpeg"); /* image path */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Jost', sans-serif;
+}
+  
+  p {
+    margin: 0;
+  } 
+  .container {
+    
+    
+    /*background-color: rgba(255, 255, 255,0.5); /* transparent white */
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 1200px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
+}
+/* Hidden class */
+/*.hidden {
+  display: none;
+}
+
+/* Proper floating dropdown box */
+/*.filter-dropdown {
+  position: absolute;
+  top: 40px; /* adjust based on your button size */
+ /* right: 0;  /* dropdown aligns right side of button */
+  /*background-color: #ffffff;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  width: 220px;
+}
+
+/* Optional styling */
+/*.filter-dropdown label {
+  display: block;
+  margin: 8px 0 4px;
+}
+.filter-dropdown select {
+  width: 100%;
+  padding: 6px;
+}*/
+#summaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.filter-icon {
+  height: 24px;
+  cursor: pointer;
+}
+
+
+  .home-button {
+   /* margin-top: 20px;*/
+    padding: 8px 12px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color:var(--turquoise);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+   /* transition: background 0.3s ease;*/
+}
+
+.home-button:hover {
+    background-color: #c98db2;
+}
+  .hidden {
+    display: none;
+  }
+  .header {
+    display: flex;
+     justify-content: space-between; /* Pushes left and right ends */
+     align-items: center;
+     padding: 15px 30px;
+  }
+  .header-left {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+
+}
+
+.header-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+ .header-headings {
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 790px;
+  }
+  /*.header-profile {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }*/
+ 
+  
+  .info {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+  }
+  .info-add-new,
+  .info-summary {
+    display: flex;
+    height: 20rem;
+    width: 30rem;
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .detail {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .detail-category,
+  .detail-recents {
+    display: flex;
+    /* height: 20rem;
+    width: 30rem; */
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 1rem;
+  }
+  
+  .add-btn,
+  .formGroup input[type='submit'] {
+    background-color: var(--turquoise);
+    border: none;
+    height: 35px;
+    border-radius: 6px;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+  }
+  .add-btn:hover,
+  .formGroup input[type='submit']:hover {
+    background-color: darkcyan;
+  }
+  .edit-btn {
+    background-color:rgb(6, 6, 46);
+    border: none;
+    border-radius: 6px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+  }
+  .edit-btn:hover{
+    background-color:rgb(10, 54, 54)
+  }
+  
+  .delete-btn {
+    background-color: var(--tomato);
+    border: none;
+    border-radius: 6px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+  }
+  .delete-btn:hover{
+    background-color: rgb(138, 33, 33);
+  
+  }
+  .delete-btn {
+  background-color: rgb(228, 28, 28);
+  color: white;
+  border: none;
+  padding: 3px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+  
+  .active-tab {
+    background-color: var(--tomato);
+  }
+  .active-tab:hover {
+    background-color: brown;
+  }
+  #incomeAddForm {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .formGroup {
+    padding: 10px 0 10px 0;
+  }
+  input[type='text'],
+  input[type='number'],
+  select {
+    min-height: 20px;
+    padding: 5px;
+    border: 1px solid var(--turquoise);
+    border-radius: 6px;
+    outline: none;
+  }
+  
+  .totalincome-value {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .totalincome-value table {
+    max-width:100%;
+    text-align: center;
+  }
+  .incomeBudgetCompare table {
+    width: 80%;
+    text-align: center;
+  }
+  
+  .budget-table table tr td:nth-child(2) {
+    text-transform: capitalize;
+  }
+  
+  .budget-table td {
+    text-align: center;
+  }
+  
+  #incomeChart {
+    height: 480px !important;
+    width: 480px !important;
+    background-color: var(--white);
+    margin-bottom: 3rem !important;
+  }
+  
+  #incBudCompareChart {
+    height: 380px !important;
+    width: 30rem !important;
+    background-color: var(--white);
+  }
+  
+  
+  /* EXpenses */
+  .expense-form-inputs{
+    display: flex;
+    gap:20px;
+  }
+  .all-expenses-div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .delete-expense-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.delete-expense-btn:hover {
+  background-color: #c0392b;
+}
+.detail-expense-category table{
+  width: 50%;
+  border-collapse: separate;
+  border-spacing: 5px 5px; /* horizontal gap: 40px, vertical gap: 12px */
+  text-align: center;
+}
+.detail-expense-category th,
+.detail-expense-category td {
+  padding:0.3px 20px;
+  font-size: 16px;
+ 
+}
+  
+  .detail-expense-category, .detail-expense-recents,.detail-summary-category, .detail-summary-recents{
+    display: flex;
+    height: 35rem;
+    width: 30rem;
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 1rem;
+    flex-direction: column;
+    
+    
+  }
+  .detail-expense-category, .detail-expense-recents,.detail-summary-category, .detail-summary-recents{
+     overflow-y: auto;
+  }
+  .exhaustionDiv,.innerexhaustionDiv{
+    height:1.2rem;
+    border-radius: 8px;
+   /* width:20rem*/;  
+  }
+  .exhaustionDiv{
+    border:1px solid black;
+  }
+  .innerexhaustionDiv{
+    background-color: var(--turquoise);
+  }
+  .all-expenses{
+    overflow-y: scroll;
+  }
+  .all-expenses table{
+    width:95%;
+    text-align: center;
+  }
+  .detail-expense-recents,.detail-summary-category, .detail-summary-recents{
+    height:35rem;
+  }
+  
+  /* summary */
+ .info-summary{
+  text-align: center;
+ }
+  
+  .summary-info-add{
+    width:100%;
+    text-align: center;
+  }
+  .summary-budget-table table{
+    width:95%;
+  }
+  .summary-summary{
+    /*display: flex;*/
+    flex-direction: column;
+     overflow-y: auto;
+  }
+  .summary-total{
+    text-align: justify;
+  }
+  /*.summary-summary{
+    overflow-y: auto;
+  }*/
+  .summary-saving{
+    margin-top:3rem;
+    display: flex;
+    align-items: center;
+    gap:30px;
+  }
+  .summary-saving span{
+    font-weight: 700;
+  }
+ 
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}

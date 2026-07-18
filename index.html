@@ -1,0 +1,459 @@
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script type="module">
+  // Modular Firebase SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCGHy6dFx659oXQF_UtRxGhcLV4pie461I",
+    authDomain: "budget-tracker-41390.firebaseapp.com",
+    projectId: "budget-tracker-41390",
+    storageBucket: "budget-tracker-41390.firebasestorage.app",
+    messagingSenderId: "10009807468",
+    appId: "1:10009807468:web:a4c81c9881b1c006496649"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Make auth and db globally available
+  window.firebaseAuth = auth;
+  window.firebaseDB = db;
+</script>
+
+    
+    <title>Budget Tracker</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+      .filter-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    width: 220px;
+  }
+
+  .filter-dropdown label {
+    display: block;
+    margin: 8px 0 4px;
+    font-size: 14px;
+  }
+
+  .filter-dropdown select {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+   .filter-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  position: relative;
+  left: -20px;
+
+}
+</style>
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-headings">
+          <div class="header-right">
+            <button class="add-btn active-tab" id="incomeBtn">Income</button>
+            <button class="add-btn" id="expenseBtn">Expenses</button>
+            <button class="add-btn" id="summaryBtn">Summary</button>
+             
+          </div>
+          
+          <!-- 👇 Wrap everything inside this div -->
+<div id="summaryHeader" style="display: none;">
+  <div class="header-left">
+    <a href="home.html">
+      <button class="home-button" id="homeBtn">Home</button>
+    </a>
+    <div class="filter-container" style="position: relative; display: inline-block;">
+      <button id="filterBtn" class="filter-btn">
+        <i class="bx bx-menu-alt-left" style="font-size: 40px; color: #dfa5d5;"></i>
+      </button>
+      <div id="filterDropdown" class="filter-dropdown hidden">
+        <label for="viewMode">View Mode:</label>
+        <select id="viewMode">
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly" selected>Monthly</option>
+        </select>
+
+        <label for="showTotal">Show Total:</label>
+        <select id="showTotal">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+
+        <label for="carryOver">Carry Over:</label>
+        <select id="carryOver">
+          <option value="on">On</option>
+          <option value="off" selected>Off</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+
+
+<script>
+  const filterBtn = document.getElementById("filterBtn");
+  const filterDropdown = document.getElementById("filterDropdown");
+
+  filterBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    filterDropdown.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+      filterDropdown.classList.add("hidden");
+    }
+  });
+</script>
+
+  </body>
+</html>
+    <div class="element-container">
+        <!-- income container -->
+        <div class="income-container hidden" id="incomeContainer">
+          <div class="info">
+            <div class="info-add-new">
+              <!-- add new income  -->
+              <div class="income-info-add">
+                <h3>Add New Income</h3>
+                <form action="" id="incomeAddForm">
+                  <div class="formGroup">
+                    <label for="">Income:</label>
+                    <input
+                      type="number"
+                      id="newIncomeInput"
+                      placeholder="Enter your income"
+                    />
+                 </div>
+                  <div class="formGroup">
+                    <label for="">Source:</label>
+                    <select name="" id="existingIncomeSourceInput">
+                      <option value="salary">Salary</option>
+                      <option value="youtube">Youtube</option>
+                      <option value="Rent">Rent</option>
+                      <option value="shop">shop</option>
+                      <option value="pension">pension</option>
+                     </select>
+                  </div>
+                  <p>or add a new source</p>
+                  <div class="formGroup">
+                    <label for="">Source:</label>
+                    <input
+                      type="text"
+                      id="newIncomeSourceInput"
+                      placeholder="Add New Source"
+                    />
+                  </div>
+                  <div class="formGroup">
+                    <input type="submit" value="submit" />
+                  </div>
+                </form>
+              </div>
+              <!-- add new income  -->
+            </div>
+            <div class="info-summary">
+              <!-- income budget summary -->
+              <div class="income-info-summary">
+                <div class="income-budget-summary">
+                  <h3>Budget Plan</h3>
+                  <div class="budget-table">
+                    <table id="budgetTable">
+                      <thead>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                      </thead>
+                      <tbody >
+                        <tr>
+                          <td>
+                            <div>
+                           <select name="" id="budgetCategoryInput">
+                      <option value="baby">Baby</option>
+                      <option value="beauty">Beauty</option>
+                      <option value="bills">Bills</option>
+                      <option value="car">Car</option>
+                      <option value="clothing">Clothing</option>
+                      <option value="education">Education</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="entertainment">Entertainment</option>
+                      <option value="food">Food</option>
+                      <option value="health">Health</option>
+                      <option value="home">Home</option>
+                      <option value="insurance">Insurance</option>
+                      <option value="shopping">Shopping</option>
+                      <option value="social">Social</option>
+                      <option value="sport">Sport</option>
+                      <option value="tax">Tax</option>
+                      <option value="telephone">Telephone</option>
+                      <option value="transportation">Transportation</option>
+
+                     </select>
+                     </div>
+                          </td>
+                          <td><input type="number" id="budgetInput" /></td>
+                          <td>
+                            <button id="budgetAddBtn" class="add-btn">
+                              + add
+                            </button>
+                           </td>
+                        </tr>
+                      </tbody>
+                    <tbody  id="incomeBudgetTableBody">
+
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- income budget summary -->
+            </div>
+          </div>
+          <div class="detail">
+            <div class="detail-category">
+              <!-- income chart -->
+              <div class="income-details">
+                <div class="totalincome-value">
+                  <table>
+                    <tbody id="incomeChartTableBody">
+                      <tr>
+                        <th>Total Income:</th>
+                        <th><p id="incomeValue"></p></th>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <canvas id="incomeChart"></canvas>
+              </div>
+              <!-- income chart -->
+            </div>
+            <div class="detail-recents">
+              <!-- income budget compare -->
+              <div class="incomeBudgetCompare">
+                <table>
+                  <tbody id="budgetChartTableBody">
+                    <tr>
+                      <th>Total Budget:</th>
+                      <th><span id="incomeBudgetValue"></span></th>
+                    </tr>
+                  </tbody>
+                </table>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Estimated Savings:</th>
+                      <th><span id="estimatedSavingsValue"></span></th>
+                    </tr>
+                  </tbody>
+                </table>
+                
+
+                <canvas id="incBudCompareChart"></canvas>
+              </div>
+              <!-- income budget compare -->
+            </div>
+          </div>
+        </div>
+         <!-- expense container -->
+        <div class="expense-container hidden" id="expenseContainer">
+          <div class="info">
+            <div class="info-add-new">
+              <!-- add new expense  -->
+              <div class="income-info-add">
+                <h3>Add New transaction</h3>
+                <form action="" id="expenseAddForm">
+                  <div class="expense-form-inputs">
+                    <div class="formGroup">
+                    <label for="">DATE:</label>
+                      <input
+                       type="Date"
+                       id="expenseDateInput"
+                      />
+                      </div>
+                    <div class="formGroup">
+                     <label for="">Expense:</label>
+                      <input
+                        type="number"
+                        id="newExpenseInput"
+                        placeholder="Enter amount"
+                      />                      
+                    </div>
+                    <div class="formGroup">
+                      <label for="">category:</label>
+                      <select name="" id="existingExpenseCategorySelect">                       
+                      </select>
+                    </div>
+                  </div>
+                  <p>Other Category</p>
+                  <div class="formGroup">
+                    <label for="">Category:</label>
+                    <input
+                      type="text"
+                      id="newExpenseCategoryInput"
+                      placeholder="Add other Category"
+                    />
+                  </div>
+                  <div class="formGroup">
+                    <input type="submit" value="submit" />
+                  </div>
+                </form>
+              </div>
+              <!-- add new expense  -->
+            </div>
+            <div class="info-summary">
+              <!-- all expenses -->
+              <div class="all-expenses-div">
+                <h3>Latest Transactions</h3>
+                <div class="all-expenses">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>category</th>
+                        <th>Amount</th>
+                        <th>Date</th>                                               
+                      </tr>
+                    </thead>
+                    
+                     <tbody id="catLatestExpensesList"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- all expenses -->
+            </div>
+          </div>
+          <div class="detail">
+            <div class="detail-expense-category">
+              <!---total category expenses--->
+             <h3>Category Expenses</h3>
+              <div class="">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Expense</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="catExpensesList"></tbody>
+                </table>
+              </div>
+               <!---total category expenses--->
+            </div>
+            <div class="detail-expense-recents">
+             <!--expense chart -->            
+             <canvas id="expenseChart"></canvas>
+             </div>
+              <!-- expense chart -->
+            </div>
+          </div>
+        </div>
+        <!-- summary container -->
+        <div class="summary-container" id="summaryContainer">
+          <div class="info">
+            <div class="info-add-new">
+              <!-- summary budget  -->
+              <div class="income-info-add summary-info-add">
+                <h3>Budget Plan</h3>
+                <div class="summary-budget-table">
+                  <table>
+                    <thead>
+                      <th>Category</th>
+                      <th>Amount</th>
+                    </thead>
+                    <tbody id="summaryIncomeBudgetTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- summary budget  -->
+            </div>
+            <div class="info-summary summary-summary">
+              <!-- Category Expense -->
+              <h3>Category Expenses</h3>
+              <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Expense</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody id="summaryCatExpensesList"></tbody>
+                </table>
+              <!-- Category Expense -->
+              <!-- savings -->
+                <div class="summary-saving"><h3>Total Savings</h3><span id="summarySpan"></span></div>
+                <div class="summary-total">
+              <p id="totalSummaryText">Total: ₹0</p>
+              <p id="carryOverText">Carry Over: ₹0</p>
+            </div>
+              <!-- savings -->
+
+            </div>
+          </div>
+          <div class="detail">
+            <div class="detail-summary-category">
+              <!-- summary income chart -->
+              <h3>Income Chart</h3>
+              <canvas id="SummaryIncomeChart"></canvas>
+              <!-- summary income chart -->
+            </div>
+            <div class="detail-summary-recents">
+              <h3>Expense Chart</h3>
+              <!-- summary expense chart -->
+              <canvas id="SummaryExpenseChart"></canvas>
+              <!-- summary expense chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+    
+    <script type="module" src="./firebase-config.js"></script>
+<script type="module" src="./Income.js"></script>
+<script type="module" src="./expense.js"></script>
+<script  type="module" src="./script.js"></script>  
+<!-- Your existing content -->
+
+
+
+
+
+  </body>
+</html>
