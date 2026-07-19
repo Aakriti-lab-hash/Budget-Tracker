@@ -29,9 +29,12 @@
     /*background-color: rgba(255, 255, 255,0.5); /* transparent white */
     padding: 30px;
     border-radius: 15px;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 30px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
+}
+@media  (max-width: 768px){
+  
 }
 /* Hidden class */
 /*.hidden {
@@ -252,7 +255,7 @@
   
   #incomeChart {
     height: 480px !important;
-    width: 480px !important;
+    width: 100% !important;
     background-color: var(--white);
     margin-bottom: 3rem !important;
   }
