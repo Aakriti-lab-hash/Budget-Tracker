@@ -53,7 +53,7 @@ if (registerForm) {
       await sendEmailVerification(user);
       alert("Registration successful! Please verify your email.");
       await signOut(auth);
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     } catch (error) {
       alert(error.message);
     }
