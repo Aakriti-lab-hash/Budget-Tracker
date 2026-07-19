@@ -32,10 +32,10 @@
     max-width: 1200px;
     margin: 30px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
-}
+/*}
 @media  (max-width: 768px){
   
-}
+}*/
 /* Hidden class */
 /*.hidden {
   display: none;
